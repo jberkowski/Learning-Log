@@ -23,7 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4n+4ulaj#n94z6n-&3j@av0onfw^+i*l*e^3!5!(-q=@(s-*qk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+import os
+production = os.environ.get('DEBUG')
+if production == 'TRUE':
+    DEBUG = False
+elif production == 'FALSE':
+    DEBUG = True
 
 ALLOWED_HOSTS = ['learninglog-jakubberkowski.b4a.run']
 
