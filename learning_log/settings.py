@@ -133,4 +133,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # My settings.
 LOGIN_URL='users:login'
 
-CSRF_TRUSTED_ORIGINS = ['https://learninglog-jakubberkowski.b4a.run/']
+CSRF_TRUSTED_ORIGINS = ['https://learninglog-jakubberkowski.b4a.run']
