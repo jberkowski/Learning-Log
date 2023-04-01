@@ -30,7 +30,7 @@ if production == 'TRUE':
 elif production == 'FALSE':
     DEBUG = True
 
-ALLOWED_HOSTS = ['learninglog-jakubberkowski.b4a.run']
+ALLOWED_HOSTS = ['learninglog-jakubberkowski.b4a.run', '*']
 
 
 # Application definition
