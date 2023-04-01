@@ -12,7 +12,8 @@ def index(request):
 @login_required
 def topics(request):
     """Show all topics."""
-    topics = Topic.objects.filter(owner=request.user).order_by('date_added')
+    viewable_topics = Topic.objects.filter(owner=request.user) | Topic.objects.filter(public=True)
+    topics = viewable_topics.order_by('date_added')
     context = {'topics': topics}
     return render(request, 'learning_logs/topics.html', context)
 
@@ -20,8 +21,9 @@ def topics(request):
 def topic(request, topic_id):
     """Show a single topic and all of its entries."""
     topic = get_object_or_404(Topic, id=topic_id)
-    # Make sure the topic belongs to the current user.
-    check_topic_owner(topic, request)
+    # Make sure the topic belongs to the current user OR is public.
+    if not topic.public:
+        check_topic_owner(topic, request)
 
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries': entries}
@@ -39,6 +41,9 @@ def new_topic(request):
         if form.is_valid():
             new_topic = form.save(commit=False)
             new_topic.owner = request.user
+            check = request.POST.get('make_public', 0)
+            if check:
+                new_topic.public = True
             new_topic.save()
             return redirect('learning_logs:topics')
 
